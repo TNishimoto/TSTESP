@@ -1,0 +1,102 @@
+/* 
+ * Copyright (C) 2018, Takaaki Nishimoto, all rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or without
+ *   modification, are permitted provided that the following conditions
+ *   are met:
+ *
+ *   1. Redistributions of source code must retain the above Copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above Copyright
+ *      notice, this list of conditions and the following disclaimer in the
+ *      documentation and/or other materials provided with the distribution.
+ *
+ *   3. Neither the name of the authors nor the names of its contributors
+ *      may be used to endorse or promote products derived from this
+ *      software without specific prior written permission.
+ */
+
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <stdio.h>
+#include "esp_tree.hpp"
+#include "esp_index.hpp"
+#include "cmdline.h"
+#include "get_time.hpp"
+#include "tstesp.h"
+
+using namespace std;
+
+void build(ifstream &textStream, ofstream &tstStream, ofstream &espStream, string tmpFilename, uint32_t q, uint32_t pr)
+{
+
+    ofstream tmpStream;
+    ifstream tmpInputStream;
+    tmpStream.open(tmpFilename, ios::out | ios::binary);
+    //buildQXBW(textStream, xbwStream, tmpStream, labelDicFilename, q, useOccArray);
+    tst::TST::build(textStream, tstStream, &tmpStream, q);
+    //buildTST(textStream, tstStream, tmpStream, q);
+
+    std::cout << "end TST" << std::endl;
+
+    tmpInputStream.open(tmpFilename, ios::binary);
+    ESPIndex::buildESP(tmpInputStream, espStream, pr);
+    tmpInputStream.close();
+    espStream.close();
+    int err = remove(tmpFilename.c_str());
+}
+bool build(string textfile, string outputFile, uint32_t q, uint32_t pr)
+{
+
+    auto output_tst_file = outputFile + ".tst";
+    auto output_esp_file = outputFile + ".tesp";
+    auto tmp_file = outputFile + ".ttext";
+
+    ifstream inputStream;
+    inputStream.open(textfile);
+    if (!inputStream)
+    {
+        std::cout << "No Text File!" << std::endl;
+        return false;
+    }
+    ofstream tstStream;
+    tstStream.open(output_tst_file, ios::out | ios::binary);
+
+    ofstream espStream;
+    espStream.open(output_esp_file, ios::out | ios::binary);
+    build(inputStream, tstStream, espStream, tmp_file, q, pr);
+
+    inputStream.close();
+    tstStream.close();
+    espStream.close();
+    return true;
+}
+
+int main(int argc, char **argv)
+{
+
+    cmdline::parser p;
+
+    p.add<string>("input_file", 'i', "input file name", true);
+    p.add<string>("output_file", 'o', "output file name", true);
+    p.add<string>("qgram", 'q', "qgram length", true);
+
+    p.add<uint32_t>("extraction_length_ratio", 'e', "store extracation length of nodes per ESP tree level e", false, 2);
+
+    p.parse_check(argc, argv);
+
+    string input_file = p.get<string>("input_file");
+    int32_t qgramLen = std::stoi(p.get<string>("qgram"));
+    if (qgramLen <= 0)
+    {
+        std::cout << "invalid q <= 0" << std::endl;
+        return 0;
+    }
+    string output_file = p.get<string>("output_file");
+    uint32_t pr = p.get<uint32_t>("extraction_length_ratio");
+
+    build(input_file, output_file, qgramLen, pr);
+    return 0;
+}
