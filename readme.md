@@ -3,15 +3,22 @@
 This program is a C++ implementation of the TST-index.  
 Our implementation is based on the idea in [https://arxiv.org/abs/1711.02855] 
 and uses modified esp-index-I[https://github.com/tkbtkysms/esp-index-I].  
-This program needs compiled libtst.a file in [https://github.com/TNishimoto/TST].  
 
 Let z be the number of factors in LZ77 factorization of T.  
 Then the TST index of T uses O(z(q + log |T| log^{*} |T|)) space. 
 
 # Compile
-copy TST/src/libtst.a into the TSTESP folder.  
-cmake -DCMAKE_BUILD_TYPE=Release .  
-make  
+The source codes in 'module' directory are maintained in different repositories. 
+So, to download all the necessary source codes, do the following:
+
+> git clone https://github.com/TNishimoto/TSTESP.git  
+> cd TSTESP  
+> git submodule init  
+> git submodule update  
+> mkdir build  
+> cd build   
+> cmake ..  
+> make  
 
 # Usage
 You can construct q-TST index using the following command.  
@@ -44,9 +51,10 @@ You can count P in the text T using the following command.
 -q : the file path of query file.  
 (each line of query file represents a pattern P)  
 
-# Example  
-./build-index -i ../test/test.txt -o testTST -q 5  
-./decompress -i testTST -o test_decompress.txt  
-./extract -i testTST -p ../test/position.txt  
-./search -i testTST -q ../test/query.txt -m locate  
-./search -i testTST -q ../test/query.txt -m count  
+# Example 
+> cd build
+> ./build-index -i ../test/test.txt -o testTST -q 5  
+> ./decompress -i testTST -o test_decompress.txt  
+> ./extract -i testTST -p ../test/position.txt  
+> ./search -i testTST -q ../test/query.txt -m locate  
+> ./search -i testTST -q ../test/query.txt -m count  

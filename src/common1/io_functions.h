@@ -88,7 +88,7 @@ namespace my{
 		template <typename T>
 		static bool writeVector(ofstream &out, vector<T> &text)
 		{
-			int count = text.size();
+			[[maybe_unused]]int count = text.size();
 			out.write(reinterpret_cast<const char *>(&text[0]), text.size() * sizeof(T));
 			out.close();
 			return true;

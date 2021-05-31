@@ -52,7 +52,7 @@ class MyStrings
 	static void toIntegerString(vector<X> &items, string& result)
 	{
 		result += "[";
-		int k = items.size();
+		[[maybe_unused]]int k = items.size();
 		for (unsigned int i = 0; i < (int)items.size(); i++)
 		{
 			result += std::to_string(items[i]);
