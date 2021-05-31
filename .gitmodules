@@ -1,0 +1,3 @@
+[submodule "module/TST"]
+	path = module/TST
+	url = https://github.com/TNishimoto/TST.git

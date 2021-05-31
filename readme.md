@@ -23,7 +23,7 @@ You can construct q-TST index using the following command.
 You can decompress the original input text T using the following command.  
 ./decompress -i tst_index -o output_file  
 -i : the file path of TST-index (without ".tst"),  
--q : the file path of the output.  
+-o : the file path of the output.  
 
 You can random access the original input text using the following command.  
 ./extract -i tst_index -o output_file  
@@ -45,8 +45,8 @@ You can count P in the text T using the following command.
 (each line of query file represents a pattern P)  
 
 # Example  
-./build-index -i test/test.txt -o testTST -q 5  
+./build-index -i ../test/test.txt -o testTST -q 5  
 ./decompress -i testTST -o test_decompress.txt  
-./extract -i testTST -p test/position.txt  
-./search -i testTST -q test/query.txt -m locate  
-./search -i testTST -q test/query.txt -m count  
+./extract -i testTST -p ../test/position.txt  
+./search -i testTST -q ../test/query.txt -m locate  
+./search -i testTST -q ../test/query.txt -m count  

@@ -44,7 +44,7 @@ void build(ifstream &textStream, ofstream &tstStream, ofstream &espStream, strin
     ESPIndex::buildESP(tmpInputStream, espStream, pr);
     tmpInputStream.close();
     espStream.close();
-    int err = remove(tmpFilename.c_str());
+    [[maybe_unused]]int err = remove(tmpFilename.c_str());
 }
 bool build(string textfile, string outputFile, uint32_t q, uint32_t pr)
 {

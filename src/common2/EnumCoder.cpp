@@ -18,6 +18,7 @@
  */
 
 #include <cassert>
+#include <iostream>
 #include "Const.hpp"
 #include "EnumCoder.hpp"
 
@@ -113,6 +114,8 @@ uint64_t EnumCoder::SelectRaw(uint64_t code, uint64_t num){
       }
   }
   assert(false);
+  std::cout << "Error: EnumCoder::SelectRaw" << std::endl;
+  throw -1;
 }
 
 uint64_t EnumCoder::Select0(uint64_t code, uint64_t rank_sb, uint64_t num){
@@ -130,6 +133,9 @@ uint64_t EnumCoder::Select0(uint64_t code, uint64_t rank_sb, uint64_t num){
     }
   }
   assert(false);
+  std::cout << "Error: EnumCoder::Select0" << std::endl;
+  throw -1;
+
 }
 
 uint64_t EnumCoder::Select1(uint64_t code, uint64_t rank_sb, uint64_t num){
@@ -148,6 +154,9 @@ uint64_t EnumCoder::Select1(uint64_t code, uint64_t rank_sb, uint64_t num){
     } 
   }
   assert(false);
+  std::cout << "Error: EnumCoder::Select1" << std::endl;
+  throw -1;
+
 }
 
 uint64_t EnumCoder::Select(uint64_t code, uint64_t rank_sb, uint64_t num, bool bit){

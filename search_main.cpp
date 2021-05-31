@@ -24,41 +24,47 @@
 
 using namespace std;
 
-void locate(ESPIndex &esp, tst::TST &tst, SearchQuery &st, string &patternFile){
-        string line;
-	    ifstream pfs;
-        pfs.open(patternFile, std::ios::binary);
+void locate(ESPIndex &esp, tst::TST &tst, SearchQuery &st, string &patternFile)
+{
+  string line;
+  ifstream pfs;
+  pfs.open(patternFile, std::ios::binary);
   uint64_t time = 0, occ = 0;
-        auto c = 0;
-        auto n = 0;
-        vector<uint64_t> result;
-        std::chrono::system_clock::time_point  start, end;
-        while (getline(pfs, line)){
-            if (line[line.size()-1] == '\r') line.erase(line.size()-1); 
-            std::cout << "query : " << ++n  << " / " << line << std::endl;
-            //std::cout << line.size() << std::endl;
-            
-            start = std::chrono::system_clock::now();
-            //auto pattern = tst::istring(line);
-            tst::istring pattern(line.begin(), line.end());
-            tstesp::TSTESPIndex::locate(esp, tst, st, pattern, result);
-            end = std::chrono::system_clock::now();  
-            
-            time += std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
-            occ += result.size();
-            c += line.size();
+  auto c = 0;
+  auto n = 0;
+  vector<uint64_t> result;
+  std::chrono::system_clock::time_point start, end;
+  while (getline(pfs, line))
+  {
+    if (line[line.size() - 1] == '\r')
+      line.erase(line.size() - 1);
+    std::cout << "query : " << ++n << " / " << line << std::endl;
+    //std::cout << line.size() << std::endl;
 
-            if(result.size() < 500){
-            std::cout << "all occurrences : " << my::MyStrings::toIntegerString(result) << std::endl;
-            }else{
-                std::cout << "all occurrences : omit " << std::endl;
-            }            
-			cout << "Time : " << std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count() << "ns" << endl;
-        }
-        tstesp::showResult(time, occ, c, n);
+    start = std::chrono::system_clock::now();
+    //auto pattern = tst::istring(line);
+    tst::istring pattern(line.begin(), line.end());
+    tstesp::TSTESPIndex::locate(esp, tst, st, pattern, result);
+    end = std::chrono::system_clock::now();
 
-        pfs.close();
+    time += std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    occ += result.size();
+    c += line.size();
+
+    if (result.size() < 500)
+    {
+      std::cout << "all occurrences : " << my::MyStrings::toIntegerString(result) << std::endl;
     }
+    else
+    {
+      std::cout << "all occurrences : omit " << std::endl;
+    }
+    cout << "Time : " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << "ns" << endl;
+  }
+  tstesp::showResult(time, occ, c, n);
+
+  pfs.close();
+}
 
 void count(ESPIndex &esp, tst::TST &tst, SearchQuery &st, string &patternFile)
 {
@@ -104,7 +110,7 @@ int main(int argc, char **argv)
   string esp_index_file = inputFile + ".tesp";
   string tst_index_file = inputFile + ".tst";
 
-  tstesp::TSTESPIndex index;
+  [[maybe_unused]] tstesp::TSTESPIndex index;
 
   ifstream tstStream;
   tstStream.open(tst_index_file, ios::binary);

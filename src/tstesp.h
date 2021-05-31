@@ -75,7 +75,7 @@ class TSTESPIndex
 		espstring inp;
 		my::IO::loadVec<espchar>(tmpInputStream, inp);
         tmpInputStream.close();
-        int err=remove(tmpFilename.c_str());
+        [[maybe_unused]]int err=remove(tmpFilename.c_str());
 		
 		tst.restoreText(inp, output);
 
@@ -96,7 +96,7 @@ class TSTESPIndex
     }
     */
     
-    static void extract(ESPIndex &esp, tst::TST &tst, Extract &ext, uint64_t pos, uint64_t len, tst::istring &output)
+    static void extract([[maybe_unused]]ESPIndex &esp, tst::TST &tst, Extract &ext, uint64_t pos, uint64_t len, tst::istring &output)
     {
         vector<uint64_t> output64;
 
@@ -134,7 +134,7 @@ class TSTESPIndex
 
     
 
-    static void locate(ESPIndex &esp, tst::TST &tst, SearchQuery &st, tst::istring &pattern, vector<uint64_t>& result)
+    static void locate([[maybe_unused]]ESPIndex &esp, tst::TST &tst, SearchQuery &st, tst::istring &pattern, vector<uint64_t>& result)
     {
         
         result.clear();
@@ -174,7 +174,7 @@ class TSTESPIndex
 
         
     }
-    static uint64_t count(ESPIndex &esp, tst::TST &tst, SearchQuery &st, tst::istring &pattern)
+    static uint64_t count([[maybe_unused]]ESPIndex &esp, tst::TST &tst, SearchQuery &st, tst::istring &pattern)
     {
         
         if (pattern.size() <= tst.truncatedLength)

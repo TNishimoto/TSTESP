@@ -38,11 +38,11 @@ class MyStrings
 	{
 		string s = "";
 		s += "[";
-		int k = items.size();
-		for (unsigned int i = 0; i < (int)items.size(); i++)
+		[[maybe_unused]]int k = items.size();
+		for (int i = 0; i < (int)items.size(); i++)
 		{
 			s += std::to_string(items[i]);
-			if (i != items.size() - 1)
+			if (i != (int)items.size() - 1)
 				s += ", ";
 		}
 		s += "]";
