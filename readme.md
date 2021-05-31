@@ -52,7 +52,7 @@ You can count P in the text T using the following command.
 (each line of query file represents a pattern P)  
 
 # Example 
-> cd build
+> cd build  
 > ./build-index -i ../test/test.txt -o testTST -q 5  
 > ./decompress -i testTST -o test_decompress.txt  
 > ./extract -i testTST -p ../test/position.txt  
